@@ -26,8 +26,7 @@ func _ready():
 	progress_bar.value = health
 
 
-func _process(delta):
-	
+func _physics_process(delta):
 	
 	if attacking and not dead:
 		var closest_enemy = null
@@ -48,17 +47,14 @@ func _process(delta):
 		if closest_enemy:
 			if not animation_player.is_playing():
 				animation_player.play("Walk")
-			move_towards_enemy(closest_enemy, delta)
+				
+			nav.target_position = closest_enemy.global_position
+			var direction = nav.get_next_path_position() - global_position
+			direction = direction.normalized()
+			
+			var intended_velocity = direction * speed
+			nav.set_velocity(intended_velocity)
 
-
-func move_towards_enemy(enemy, delta):
-	nav.target_position = enemy.global_position
-	var accel = 7
-	var direction = nav.get_next_path_position() - global_position
-	direction = direction.normalized()
-	
-	velocity = velocity.lerp(direction * speed, accel * delta)
-	move_and_slide()
 	
 
 func take_damage(damage):
@@ -98,3 +94,10 @@ func _on_hitbox_area_exited(area):
 	var target = area.get_parent()
 	if target in targets_in_hitbox:
 		targets_in_hitbox.erase(target)
+
+
+func _on_navigation_agent_2d_velocity_computed(safe_velocity):
+	velocity = safe_velocity
+	# Check here if all enemies are dead
+	if len(get_tree().get_nodes_in_group("Hostile")) != 0:
+		move_and_slide()
