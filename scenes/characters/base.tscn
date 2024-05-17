@@ -135,5 +135,9 @@ shape = SubResource("CapsuleShape2D_gnsrn")
 position = Vector2(0, -4)
 shape = SubResource("CircleShape2D_5ho8i")
 
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+path_postprocessing = 1
+debug_enabled = true
+
 [connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]
 [connection signal="area_exited" from="Hitbox" to="." method="_on_hitbox_area_exited"]

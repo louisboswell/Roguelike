@@ -5,6 +5,7 @@ extends CharacterBody2D
 @onready var attacking = false
 @onready var progress_bar = $ProgressBar
 @onready var hitbox = $Hitbox
+@onready var nav = $NavigationAgent2D
 
 # Base character stats and attributes
 var speed = 50
@@ -51,32 +52,14 @@ func _process(delta):
 
 
 func move_towards_enemy(enemy, delta):
-	if enemy:
-		# Calculate the direction vector from the current position to the enemy's position
-		var direction = (enemy.global_position - global_position).normalized()
-		
-		# Calculate the velocity vector
-		velocity = direction * speed
-		
-		# Move the object and slide along surfaces
-		move_and_slide()
-
-		var avoid_radius = 100
-		var avoid_strength = 500
-
-
-		# Avoidance logic to steer away from overlapping with other characters
-		var avoidance_force = Vector2()
-		var neighbors = get_tree().get_nodes_in_group("Friendly")  # Adjust to your characters' group
-		for neighbor in neighbors:
-			if neighbor != self:  # Exclude self
-				var neighbor_distance = global_position.distance_to(neighbor.global_position)
-				if neighbor_distance < avoid_radius:  # Adjust avoid_radius as needed
-					var away_direction = (global_position - neighbor.global_position).normalized()
-					avoidance_force += away_direction / neighbor_distance  # Weighted by distance
-		
-		velocity += avoidance_force * avoid_strength  # Adjust avoid_strength as needed
-		move_and_slide()
+	nav.target_position = enemy.global_position
+	var accel = 7
+	var direction = nav.get_next_path_position() - global_position
+	direction = direction.normalized()
+	
+	velocity = velocity.lerp(direction * speed, accel * delta)
+	move_and_slide()
+	
 
 func take_damage(damage):
 	if dead:
@@ -100,7 +83,7 @@ func _on_hitbox_area_entered(area):
 func attack_target(target):
 	while is_instance_valid(target) and target.health > 0 and target in targets_in_hitbox:
 		target.take_damage(damage)
-		apply_knockback(target)
+		#apply_knockback(target)
 		await get_tree().create_timer(attack_speed).timeout
 
 func apply_knockback(target):
