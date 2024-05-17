@@ -1,0 +1,115 @@
+[gd_scene load_steps=10 format=3 uid="uid://c3kjsqjrco7ta"]
+
+[ext_resource type="PackedScene" uid="uid://ch8dnxtvl2eee" path="res://scenes/warband.tscn" id="1_blg7k"]
+[ext_resource type="Script" path="res://scenes/Main.gd" id="1_rku8g"]
+[ext_resource type="FontFile" uid="uid://b125eqqeufrmb" path="res://fonts/Kenney Pixel.ttf" id="2_fjlyo"]
+[ext_resource type="Texture2D" uid="uid://dvoj6iv8qsyog" path="res://assets/Tiles/tile_0084.png" id="4_av0dw"]
+[ext_resource type="Texture2D" uid="uid://bldrykerorix0" path="res://assets/Tiles/tile_0087.png" id="5_q3h10"]
+[ext_resource type="Texture2D" uid="uid://ce2c0f3nxmylf" path="res://assets/Tiles/tile_0097.png" id="6_jakcj"]
+[ext_resource type="Texture2D" uid="uid://ca4adek1xtp3d" path="res://assets/Tiles/tile_0109.png" id="7_74iyi"]
+
+[sub_resource type="Theme" id="Theme_8kfgw"]
+default_font = ExtResource("2_fjlyo")
+
+[sub_resource type="Theme" id="Theme_bc14y"]
+
+[node name="Main" type="Node"]
+script = ExtResource("1_rku8g")
+
+[node name="Warband" parent="." instance=ExtResource("1_blg7k")]
+
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Reset" type="Button" parent="UI"]
+layout_mode = 0
+offset_left = 352.0
+offset_top = 504.0
+offset_right = 420.0
+offset_bottom = 536.0
+theme = SubResource("Theme_8kfgw")
+theme_override_font_sizes/font_size = 31
+text = "Reset"
+
+[node name="Fight" type="Button" parent="UI"]
+layout_mode = 0
+offset_left = 352.0
+offset_top = 464.0
+offset_right = 420.0
+offset_bottom = 496.0
+theme = SubResource("Theme_8kfgw")
+theme_override_font_sizes/font_size = 31
+text = "Fight"
+
+[node name="Control" type="ColorRect" parent="UI"]
+layout_mode = 0
+offset_left = 64.0
+offset_top = 192.0
+offset_right = 104.0
+offset_bottom = 232.0
+scale = Vector2(3.28, 4.16)
+theme = SubResource("Theme_bc14y")
+color = Color(1, 0.682353, 0.470588, 1)
+
+[node name="Wizard" type="Button" parent="UI"]
+layout_mode = 0
+offset_left = 112.0
+offset_top = 240.0
+offset_right = 174.0
+offset_bottom = 271.0
+text = "Wizard"
+
+[node name="Sprite2D" type="Sprite2D" parent="UI/Wizard"]
+position = Vector2(-24, 16)
+scale = Vector2(2, 2)
+texture = ExtResource("4_av0dw")
+
+[node name="Viking" type="Button" parent="UI"]
+layout_mode = 0
+offset_left = 112.0
+offset_top = 280.0
+offset_right = 168.0
+offset_bottom = 311.0
+text = "Viking"
+
+[node name="Sprite2D" type="Sprite2D" parent="UI/Viking"]
+position = Vector2(-24, 16)
+scale = Vector2(2, 2)
+texture = ExtResource("5_q3h10")
+
+[node name="Knight" type="Button" parent="UI"]
+layout_mode = 0
+offset_left = 112.0
+offset_top = 200.0
+offset_right = 171.0
+offset_bottom = 231.0
+text = "Knight"
+
+[node name="Sprite2D" type="Sprite2D" parent="UI/Knight"]
+position = Vector2(-24, 16)
+scale = Vector2(2, 2)
+texture = ExtResource("6_jakcj")
+
+[node name="Ogre" type="Button" parent="UI"]
+layout_mode = 0
+offset_left = 112.0
+offset_top = 320.0
+offset_right = 163.0
+offset_bottom = 351.0
+text = "Ogre
+"
+
+[node name="Sprite2D" type="Sprite2D" parent="UI/Ogre"]
+position = Vector2(-24, 16)
+scale = Vector2(2, 2)
+texture = ExtResource("7_74iyi")
+
+[connection signal="pressed" from="UI/Reset" to="Warband" method="_on_reset_pressed"]
+[connection signal="pressed" from="UI/Fight" to="Warband" method="_on_fight_pressed"]
+[connection signal="pressed" from="UI/Wizard" to="Warband" method="_on_wizard_pressed"]
+[connection signal="pressed" from="UI/Viking" to="Warband" method="_on_viking_pressed"]
+[connection signal="pressed" from="UI/Knight" to="Warband" method="_on_knight_pressed"]
+[connection signal="pressed" from="UI/Ogre" to="Warband" method="_on_ogre_pressed"]

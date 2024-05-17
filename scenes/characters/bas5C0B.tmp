@@ -1,0 +1,97 @@
+[gd_scene load_steps=8 format=3 uid="uid://mxktho64ixf3"]
+
+[ext_resource type="Script" path="res://scenes/characters/base.gd" id="1_ahovv"]
+[ext_resource type="Texture2D" uid="uid://bje7kodp78f6e" path="res://assets/Tiles/tile_0111.png" id="2_d7cin"]
+
+[sub_resource type="Animation" id="Animation_dx0vn"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:offset")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, -5)]
+}
+
+[sub_resource type="Animation" id="Animation_tvewy"]
+resource_name = "Spawn"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:offset")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0, -5), Vector2(0, -10), Vector2(0, -5)]
+}
+
+[sub_resource type="Animation" id="Animation_1ro5d"]
+resource_name = "Walk"
+length = 0.2
+loop_mode = 2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:offset")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, -5), Vector2(0, -7)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_kussm"]
+_data = {
+"RESET": SubResource("Animation_dx0vn"),
+"Spawn": SubResource("Animation_tvewy"),
+"Walk": SubResource("Animation_1ro5d")
+}
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_gnsrn"]
+radius = 7.0
+height = 16.0
+
+[node name="Base" type="Node2D"]
+script = ExtResource("1_ahovv")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_d7cin")
+offset = Vector2(0, -5)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../Sprite2D")
+libraries = {
+"": SubResource("AnimationLibrary_kussm")
+}
+autoplay = "Spawn"
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+visible = false
+offset_left = -8.0
+offset_top = -21.0
+offset_right = 8.0
+offset_bottom = -17.0
+value = 100.0
+rounded = true
+show_percentage = false
+
+[node name="Hitbox" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2(0, -5)
+shape = SubResource("CapsuleShape2D_gnsrn")
+
+[connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]

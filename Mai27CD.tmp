@@ -1,0 +1,41 @@
+[gd_scene load_steps=5 format=3 uid="uid://c3kjsqjrco7ta"]
+
+[ext_resource type="PackedScene" uid="uid://ch8dnxtvl2eee" path="res://scenes/warband.tscn" id="1_blg7k"]
+[ext_resource type="Script" path="res://Main.gd" id="1_rku8g"]
+[ext_resource type="FontFile" uid="uid://b125eqqeufrmb" path="res://fonts/Kenney Pixel.ttf" id="2_fjlyo"]
+
+[sub_resource type="Theme" id="Theme_8kfgw"]
+default_font = ExtResource("2_fjlyo")
+
+[node name="Main" type="Node"]
+script = ExtResource("1_rku8g")
+
+[node name="Warband" parent="." instance=ExtResource("1_blg7k")]
+
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Reset" type="Button" parent="UI"]
+layout_mode = 0
+offset_left = 192.0
+offset_top = 288.0
+offset_right = 260.0
+offset_bottom = 320.0
+theme = SubResource("Theme_8kfgw")
+theme_override_font_sizes/font_size = 31
+text = "RESET"
+
+[node name="Fight" type="Button" parent="UI"]
+layout_mode = 0
+offset_left = 192.0
+offset_top = 224.0
+offset_right = 260.0
+offset_bottom = 256.0
+theme = SubResource("Theme_8kfgw")
+theme_override_font_sizes/font_size = 31
+text = "FIGHT"
+
+[connection signal="pressed" from="UI/Reset" to="Warband" method="_on_reset_pressed"]

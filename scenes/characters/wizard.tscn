@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://qxvqphu55sjb"]
+
+[ext_resource type="PackedScene" uid="uid://c46fs8harm6rd" path="res://scenes/characters/base_ranged.tscn" id="1_5yyhv"]
+[ext_resource type="Texture2D" uid="uid://dvoj6iv8qsyog" path="res://assets/Tiles/tile_0084.png" id="2_og3tf"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_5ho8i"]
+radius = 6.08276
+
+[node name="Base" instance=ExtResource("1_5yyhv")]
+
+[node name="Sprite2D" parent="." index="0"]
+texture = ExtResource("2_og3tf")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." index="4"]
+position = Vector2(0, -4)
+shape = SubResource("CircleShape2D_5ho8i")
+
+[node name="Timer" type="Timer" parent="." index="7"]
+wait_time = 0.2
+one_shot = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

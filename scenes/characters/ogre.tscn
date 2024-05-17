@@ -1,0 +1,11 @@
+[gd_scene load_steps=4 format=3 uid="uid://b4rggxn6cqfjv"]
+
+[ext_resource type="PackedScene" uid="uid://mxktho64ixf3" path="res://scenes/characters/base.tscn" id="1_mqmim"]
+[ext_resource type="Texture2D" uid="uid://ca4adek1xtp3d" path="res://assets/Tiles/tile_0109.png" id="2_hwc7j"]
+[ext_resource type="Script" path="res://scenes/characters/ogre.gd" id="2_sfq4b"]
+
+[node name="Base" instance=ExtResource("1_mqmim")]
+script = ExtResource("2_sfq4b")
+
+[node name="Sprite2D" parent="." index="0"]
+texture = ExtResource("2_hwc7j")

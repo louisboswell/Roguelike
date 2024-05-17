@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://c46fs8harm6rd"]
+
+[ext_resource type="PackedScene" uid="uid://mxktho64ixf3" path="res://scenes/characters/base.tscn" id="1_oy0ck"]
+[ext_resource type="Script" path="res://scenes/characters/base_ranged.gd" id="2_31cqi"]
+
+[node name="Base" instance=ExtResource("1_oy0ck")]
+script = ExtResource("2_31cqi")
+
+[node name="RayCast2D" type="RayCast2D" parent="." index="5"]

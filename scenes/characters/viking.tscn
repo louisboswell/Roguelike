@@ -1,0 +1,11 @@
+[gd_scene load_steps=4 format=3 uid="uid://b2dvy433p6suo"]
+
+[ext_resource type="PackedScene" uid="uid://mxktho64ixf3" path="res://scenes/characters/base.tscn" id="1_141yj"]
+[ext_resource type="Script" path="res://scenes/characters/viking.gd" id="2_h65i6"]
+[ext_resource type="Texture2D" uid="uid://bldrykerorix0" path="res://assets/Tiles/tile_0087.png" id="2_tis8v"]
+
+[node name="Base" instance=ExtResource("1_141yj")]
+script = ExtResource("2_h65i6")
+
+[node name="Sprite2D" parent="." index="0"]
+texture = ExtResource("2_tis8v")

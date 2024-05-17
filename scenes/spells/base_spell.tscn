@@ -1,0 +1,88 @@
+[gd_scene load_steps=10 format=3 uid="uid://burlyls5bc47r"]
+
+[ext_resource type="Script" path="res://scenes/spells/base_spell.gd" id="1_heemd"]
+[ext_resource type="Texture2D" uid="uid://beo1qokoxswgr" path="res://assets/Effect and Bullet 16x16/Fire Effect and Bullet 16x16.png" id="1_yjrio"]
+
+[sub_resource type="Curve" id="Curve_38il0"]
+min_value = -1.0
+_data = [Vector2(0, -1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lpdab"]
+atlas = ExtResource("1_yjrio")
+region = Rect2(224, 160, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1pski"]
+atlas = ExtResource("1_yjrio")
+region = Rect2(240, 160, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x2xqy"]
+atlas = ExtResource("1_yjrio")
+region = Rect2(256, 160, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rykn4"]
+atlas = ExtResource("1_yjrio")
+region = Rect2(272, 160, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_v2wt8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lpdab")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1pski")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x2xqy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rykn4")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_8wb5d"]
+radius = 3.0
+height = 14.0
+
+[node name="BaseSpell" type="Node2D"]
+script = ExtResource("1_heemd")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+amount = 100
+lifetime = 3.0
+lifetime_randomness = 1.0
+direction = Vector2(-1, 0)
+spread = 20.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 10.0
+initial_velocity_max = 20.0
+scale_amount_min = 5.0
+scale_amount_max = 5.0
+color = Color(1, 0, 0, 1)
+hue_variation_min = -0.15
+hue_variation_max = 0.16
+hue_variation_curve = SubResource("Curve_38il0")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -3)
+sprite_frames = SubResource("SpriteFrames_v2wt8")
+autoplay = "default"
+frame_progress = 0.531434
+
+[node name="Hitbox" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_8wb5d")
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
