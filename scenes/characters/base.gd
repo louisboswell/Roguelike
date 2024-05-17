@@ -7,6 +7,8 @@ extends CharacterBody2D
 @onready var hitbox = $Hitbox
 @onready var nav = $NavigationAgent2D
 @onready var footsteps = $Sprite2D/Footsteps
+@onready var hit_sound = $HitSound
+@onready var damage_sound = $DamageSound
 
 var hitmarker = preload("res://hitmarker.tscn")
 
@@ -30,16 +32,19 @@ func _ready():
 
 
 func _physics_process(delta):
+	progress_bar.value = health
 	
 	if attacking and not dead:
 		var closest_enemy = null
 		var closest_distance = INF
-
 		
 		var enemies = get_tree().get_nodes_in_group("Hostile")
 		
 		if hostile:
 			enemies = get_tree().get_nodes_in_group("Friendly")
+				
+		if health < 30 and len(get_tree().get_nodes_in_group("Potions")) != 0:
+			enemies = get_tree().get_nodes_in_group("Potions")
 		
 		for enemy in enemies:
 			var distance = global_position.distance_to(enemy.global_position)
@@ -63,6 +68,8 @@ func _physics_process(delta):
 func take_damage(damage):
 	if dead:
 		return
+		
+	damage_sound.play()
 	health -= damage
 	progress_bar.visible = true
 	progress_bar.value = health
@@ -87,6 +94,7 @@ func _on_hitbox_area_entered(area):
 func attack_target(target):
 	while is_instance_valid(target) and target.health > 0 and target in targets_in_hitbox:
 		target.take_damage(damage)
+		hit_sound.play()
 		#apply_knockback(target)
 		await get_tree().create_timer(attack_speed).timeout
 

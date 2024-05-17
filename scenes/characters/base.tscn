@@ -1,7 +1,13 @@
-[gd_scene load_steps=11 format=3 uid="uid://mxktho64ixf3"]
+[gd_scene load_steps=19 format=3 uid="uid://mxktho64ixf3"]
 
 [ext_resource type="Script" path="res://scenes/characters/base.gd" id="1_ahovv"]
 [ext_resource type="Texture2D" uid="uid://bje7kodp78f6e" path="res://assets/Tiles/tile_0111.png" id="2_d7cin"]
+[ext_resource type="AudioStream" uid="uid://b3iq7bxb88doc" path="res://sound/Minifantasy_Dungeon_SFX/07_human_atk_sword_1.wav" id="3_b6g70"]
+[ext_resource type="AudioStream" uid="uid://cdkcjv6kbar7f" path="res://sound/Minifantasy_Dungeon_SFX/07_human_atk_sword_2.wav" id="4_quyi1"]
+[ext_resource type="AudioStream" uid="uid://de68hxvq3gnd" path="res://sound/Minifantasy_Dungeon_SFX/07_human_atk_sword_3.wav" id="5_vqpx0"]
+[ext_resource type="AudioStream" uid="uid://mnposq7xrphy" path="res://sound/Minifantasy_Dungeon_SFX/11_human_damage_1.wav" id="6_7r0qh"]
+[ext_resource type="AudioStream" uid="uid://dwmm6gjhoffk" path="res://sound/Minifantasy_Dungeon_SFX/11_human_damage_2.wav" id="7_p0vc2"]
+[ext_resource type="AudioStream" uid="uid://2g8ufmqy8r1s" path="res://sound/Minifantasy_Dungeon_SFX/11_human_damage_3.wav" id="8_nb484"]
 
 [sub_resource type="Curve" id="Curve_mt6p2"]
 _data = [Vector2(0.075419, 0.993824), 0.0, 0.0, 0, 0, Vector2(0.539106, 1), 0.0, 0.0, 0, 0, Vector2(0.994413, 0), 0.0, 0.0, 0, 0]
@@ -36,6 +42,21 @@ tracks/1/keys = {
 "method": &"queue_free"
 }]
 }
+tracks/2/type = "audio"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../RunSound")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": null
+}],
+"times": PackedFloat32Array(0)
+}
+tracks/2/use_blend = true
 
 [sub_resource type="Animation" id="Animation_dx0vn"]
 length = 0.001
@@ -124,6 +145,24 @@ height = 16.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_5ho8i"]
 radius = 6.08276
 
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_hf83l"]
+streams_count = 3
+stream_0/stream = ExtResource("3_b6g70")
+stream_0/weight = 1.0
+stream_1/stream = ExtResource("4_quyi1")
+stream_1/weight = 1.0
+stream_2/stream = ExtResource("5_vqpx0")
+stream_2/weight = 1.0
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_qd153"]
+streams_count = 3
+stream_0/stream = ExtResource("6_7r0qh")
+stream_0/weight = 1.0
+stream_1/stream = ExtResource("7_p0vc2")
+stream_1/weight = 1.0
+stream_2/stream = ExtResource("8_nb484")
+stream_2/weight = 1.0
+
 [node name="Base" type="CharacterBody2D"]
 motion_mode = 1
 script = ExtResource("1_ahovv")
@@ -183,10 +222,18 @@ position = Vector2(0, -4)
 shape = SubResource("CircleShape2D_5ho8i")
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
-path_postprocessing = 1
 avoidance_enabled = true
 neighbor_distance = 100.0
 max_speed = 50.0
+debug_enabled = true
+
+[node name="HitSound" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamRandomizer_hf83l")
+
+[node name="DamageSound" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamRandomizer_qd153")
+
+[node name="RunSound" type="AudioStreamPlayer" parent="."]
 
 [connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]
 [connection signal="area_exited" from="Hitbox" to="." method="_on_hitbox_area_exited"]

@@ -19,4 +19,8 @@ shape = SubResource("CircleShape2D_5ho8i")
 wait_time = 0.2
 one_shot = true
 
+[node name="NavigationAgent2D" parent="." index="8"]
+path_postprocessing = 1
+debug_enabled = false
+
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
