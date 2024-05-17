@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://ch8dnxtvl2eee"]
+[gd_scene load_steps=8 format=3 uid="uid://ch8dnxtvl2eee"]
 
 [ext_resource type="Script" path="res://scenes/warband.gd" id="1_hfg4j"]
 [ext_resource type="Texture2D" uid="uid://cqj0mp5ivr8r8" path="res://assets/Tilemap/tilemap_packed.png" id="1_shwny"]
@@ -148,6 +148,10 @@ polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
 outlines = Array[PackedVector2Array]([PackedVector2Array(-24, 0, -24, 672, 1160, 672, 1160, 0)])
 source_geometry_group_name = &"navigation_polygon_source_group"
 
+[sub_resource type="Curve" id="Curve_mifcf"]
+_data = [Vector2(0.00558659, 0.996912), 0.0, 0.0, 0, 0, Vector2(1, 0.499762), 0.0, 0.0, 0, 0]
+point_count = 2
+
 [node name="Warband" type="Node2D"]
 z_index = -1
 position = Vector2(296, 192)
@@ -217,6 +221,19 @@ position = Vector2(1000, 368)
 scale = Vector2(2, 2)
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+visible = false
 position = Vector2(-148, -96)
 scale = Vector2(0.5, 0.5)
 navigation_polygon = SubResource("NavigationPolygon_1ndgb")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+position = Vector2(140, -96)
+amount = 100
+lifetime = 5.0
+randomness = 1.0
+emission_shape = 3
+emission_rect_extents = Vector2(300, 1)
+gravity = Vector2(-100, 200)
+scale_amount_max = 5.0
+scale_amount_curve = SubResource("Curve_mifcf")
+color = Color(0.629096, 0.450341, 4.75984e-06, 1)

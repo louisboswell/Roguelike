@@ -6,6 +6,9 @@ extends CharacterBody2D
 @onready var progress_bar = $ProgressBar
 @onready var hitbox = $Hitbox
 @onready var nav = $NavigationAgent2D
+@onready var footsteps = $Sprite2D/Footsteps
+
+var hitmarker = preload("res://hitmarker.tscn")
 
 # Base character stats and attributes
 var speed = 50
@@ -64,6 +67,11 @@ func take_damage(damage):
 	progress_bar.visible = true
 	progress_bar.value = health
 	
+	var hit = hitmarker.instantiate()
+	add_child(hit)
+	hit.global_position = global_position
+	hit.one_shot = true
+	
 	if health <= 0:
 		dead = true
 		progress_bar.visible = false
@@ -101,3 +109,9 @@ func _on_navigation_agent_2d_velocity_computed(safe_velocity):
 	# Check here if all enemies are dead
 	if len(get_tree().get_nodes_in_group("Hostile")) != 0:
 		move_and_slide()
+		
+	else:
+		animation_player.stop()
+		progress_bar.visible = false
+		footsteps.visible = false
+		

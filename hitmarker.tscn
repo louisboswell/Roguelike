@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=3 uid="uid://ccagdwmkcr8ad"]
+
+[sub_resource type="Curve" id="Curve_72x5g"]
+_data = [Vector2(0, 1), 0.0, 0.247275, 0, 0, Vector2(0.980447, 0.0581948), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[node name="CPUParticles2D" type="CPUParticles2D"]
+position = Vector2(0, -6)
+amount = 20
+lifetime = 0.5
+explosiveness = 1.0
+spread = 180.0
+gravity = Vector2(2.08165e-12, 2.08165e-12)
+initial_velocity_min = 30.0
+initial_velocity_max = 30.0
+scale_amount_min = 4.0
+scale_amount_max = 5.0
+scale_amount_curve = SubResource("Curve_72x5g")

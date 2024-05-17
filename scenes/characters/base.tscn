@@ -1,7 +1,11 @@
-[gd_scene load_steps=10 format=3 uid="uid://mxktho64ixf3"]
+[gd_scene load_steps=11 format=3 uid="uid://mxktho64ixf3"]
 
 [ext_resource type="Script" path="res://scenes/characters/base.gd" id="1_ahovv"]
 [ext_resource type="Texture2D" uid="uid://bje7kodp78f6e" path="res://assets/Tiles/tile_0111.png" id="2_d7cin"]
+
+[sub_resource type="Curve" id="Curve_mt6p2"]
+_data = [Vector2(0.075419, 0.993824), 0.0, 0.0, 0, 0, Vector2(0.539106, 1), 0.0, 0.0, 0, 0, Vector2(0.994413, 0), 0.0, 0.0, 0, 0]
+point_count = 3
 
 [sub_resource type="Animation" id="Animation_i71qe"]
 resource_name = "Die"
@@ -47,6 +51,18 @@ tracks/0/keys = {
 "update": 0,
 "values": [Color(1, 1, 1, 1)]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Footsteps:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
 
 [sub_resource type="Animation" id="Animation_tvewy"]
 resource_name = "Spawn"
@@ -80,6 +96,18 @@ tracks/0/keys = {
 "update": 0,
 "values": [Vector2(0, -5), Vector2(0, -7)]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Footsteps:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_kussm"]
 _data = {
@@ -102,7 +130,26 @@ script = ExtResource("1_ahovv")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_d7cin")
-offset = Vector2(0, -5)
+offset = Vector2(0, -7)
+
+[node name="Footsteps" type="CPUParticles2D" parent="Sprite2D"]
+visible = false
+modulate = Color(1, 1, 1, 0.427451)
+position = Vector2(0, 4)
+amount = 20
+lifetime = 0.4
+explosiveness = 1.0
+randomness = 0.28
+emission_shape = 3
+emission_rect_extents = Vector2(6, 1)
+direction = Vector2(2.08165e-12, 1)
+spread = 90.0
+gravity = Vector2(2.08165e-12, 30)
+initial_velocity_min = 5.0
+initial_velocity_max = 15.0
+scale_amount_min = 2.0
+scale_amount_max = 3.0
+scale_amount_curve = SubResource("Curve_mt6p2")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("../Sprite2D")
@@ -140,7 +187,6 @@ path_postprocessing = 1
 avoidance_enabled = true
 neighbor_distance = 100.0
 max_speed = 50.0
-debug_enabled = true
 
 [connection signal="area_entered" from="Hitbox" to="." method="_on_hitbox_area_entered"]
 [connection signal="area_exited" from="Hitbox" to="." method="_on_hitbox_area_exited"]
